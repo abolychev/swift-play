@@ -1,0 +1,9 @@
+
+- hosts: node1
+  tasks:
+  - shell: rm /etc/swift/{{ item }}.builder
+    with_items:
+      - account
+      - container
+      - object
+

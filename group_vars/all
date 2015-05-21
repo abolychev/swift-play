@@ -1,0 +1,4 @@
+---
+
+sudo: yes
+user: vagrant

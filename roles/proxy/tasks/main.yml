@@ -1,0 +1,10 @@
+
+- apt: name={{ item }}
+  with_items:
+    - swift-proxy 
+    - memcached 
+    - python-keystoneclient 
+    - python-swiftclient 
+    - python-webob
+
+- template: src=proxy-server.conf dest=/etc/swift/proxy-server.conf owner=swift group=swift mode=0644

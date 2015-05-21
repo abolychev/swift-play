@@ -1,0 +1,27 @@
+
+- apt: name={{ item }}
+  with_items:
+    - swift-account 
+    - swift-container 
+    - swift-object 
+    - xfsprogs
+
+- template: src=rsyncd.conf dest=/etc/rsyncd.conf owner=root group=root mode=0644
+
+- lineinfile: dest=/etc/default/rsync regexp=^RSYNC_ENABLE= line="RSYNC_ENABLE=true"
+
+- file: dest=/var/swift/recon owner=swift group=swift mode=0755 state=directory
+
+- file: dest=/srv/node/{{ item }} owner=swift group=swift mode=0755 state=directory
+  with_items:
+    - sdb
+    - sdc
+    - sdd
+
+- template: src={{ item }}-server.conf dest=/etc/swift/{{ item }}-server.conf owner=swift group=swift mode=0644
+  with_items:
+    - account
+    - object
+    - container
+
+- service: name=rsync state=started

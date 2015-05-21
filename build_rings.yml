@@ -1,0 +1,36 @@
+
+- hosts: node1
+  tasks:
+
+  - shell: cd /etc/swift && swift-ring-builder {{ item }}.builder create 18 2 1
+    with_items:
+      - account
+      - container
+      - object
+
+  - shell: cd /etc/swift && swift-ring-builder {{ item[0] }}.builder add r1z1-{{ item[2] }}:6002/{{ item[1] }} 100
+    with_nested:
+      - [ 'account', 'container', 'object' ]
+      - [ 'sdb', 'sdc', 'sdd' ]
+      - [ '192.168.100.20', '192.168.100.21' ]
+
+  - shell: cd /etc/swift && swift-ring-builder {{ item }}.builder rebalance
+    with_items:
+      - account
+      - container
+      - object
+
+  - shell: cp /etc/swift/{{ item }}.ring.gz /vagrant/ring/
+    with_items:
+      - account
+      - container
+      - object
+
+- hosts: node2
+  tasks:
+
+  - shell: cp /vagrant/ring/{{ item }}.ring.gz /etc/swift/
+    with_items:
+      - account
+      - container
+      - object

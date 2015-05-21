@@ -1,0 +1,14 @@
+
+- hosts: node1
+  roles:
+  - common
+  - proxy
+  - storage
+
+- hosts: node2
+  roles:
+  - common
+  - storage
+
+
+

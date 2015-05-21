@@ -1,0 +1,14 @@
+
+- apt: name={{ item }}
+  with_items:
+    - ntp
+    - swift 
+    - rsync 
+    - memcached 
+    - python-netifaces 
+    - python-xattr 
+    - python-memcache
+    
+- file: dest=/etc/swift owner=swift group=swift mode=0755 state=directory
+
+- template: src=swift.conf dest=/etc/swift/swift.conf owner=swift group=swift mode=0644
