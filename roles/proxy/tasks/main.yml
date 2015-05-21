@@ -6,5 +6,6 @@
     - python-keystoneclient 
     - python-swiftclient 
     - python-webob
+    - swift-plugin-s3
 
 - template: src=proxy-server.conf dest=/etc/swift/proxy-server.conf owner=swift group=swift mode=0644
